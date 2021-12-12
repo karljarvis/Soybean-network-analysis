@@ -1,0 +1,14 @@
+In our analyses of positive feedback, we found that counts of trade partners alone led to different inferences than proportions of the total number of trade partners. We found that the slopes of linear models of raw counts of numbers of trade partners were significantly positive for China, Brazil, and USA at the alpha = 0.05 level. Of the other countries that sent or received soybean for at least four years and had significant results, regression coefficients for the slope was positive for all but one of 68 senders, and all but eight of 122 receivers (Table 1). However, when we converted counts to proportion of total number of senders or receivers per year, change over time was significantly negative for Brazil and USA, and non-significant for China. This was the case whether those countries were senders or receivers. Overall, linear models were more negative when treated as proportions of total numbers of trade partners; slope was negative for 17 of 58 senders, and 45 of 114 receivers. 
+
+45 of 114 receivers
+
+17 of 58 senders were negative, and 
+
+Counts and proportions for senders and receivers
+Br/Ch/US, max, min, mean, sd for others
+
+[Karl feedback results here: 
+
+New figures have linear models only for all but our 3 main countries. Colors are the same as other figures I made for those. I put together some tables, but not sure what to chop out of it. 
+
+Findings: we found that some of the countries with high starting numbers of partners did indeed increase quickly, and sometimes more quickly than other countries. However, we did not find that they increased more relative to the general increases experienced by all involved in the soy trade. ]

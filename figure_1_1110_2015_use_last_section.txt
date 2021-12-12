@@ -1,0 +1,739 @@
+library(foreign)
+
+
+#analysis for Brazil
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil/"
+
+files <- list.files(cd,pattern='.dbf')
+
+for(i in 1:length(files)){
+year <- read.dbf(paste(cd,files[i],sep=""))
+year$Count2 <- (year$Count*30*30)/10000
+year$cat <- 0
+year$cat[which(year$Count2 <= 50)] <- 1
+year$cat[which(year$Count2 > 50 & year$Count2 <= 100)] <- 2
+year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+year$cat[which(year$Count2 > 1000)] <- 6
+write.csv(year, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil/output/Cat_",substr(files[i],8,16),".csv", sep =""),row.names=F)
+}
+
+#create figures
+
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil/output/"
+files2 <- list.files(cd,pattern='.csv')
+
+output_fig1 <- data.frame(matrix(NA,1,4))
+names(output_fig1) <- c("cat2","freq2","year2","area2")
+
+for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(files2[j],12,13)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+}
+
+output_fig1 <- output_fig1[-1,]
+#Stacked bar graph, for Deforestation (%) over 13 years
+
+
+#out_count1 <- xtabs(freq2~cat2 + year2, data=output_fig1)
+out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+colS <- matrix(rep(colSums(out_area1),6),6,13, byrow=TRUE)
+out_area2 <- out_area1/colS
+
+png(filename="C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Area/Brazil_all.png",width=800,height=400)
+barplot(out_area1, main="Area of deforested patches",
+        xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,4000000))
+legend("topright", 
+       legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+       fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+dev.off()
+
+png(filename="C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Proportion/Brazil_all.png",width=800,height=400)
+barplot(out_area2, main="Proportion of deforested patches",
+        xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+legend("topright", 
+       legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+       fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+dev.off()
+
+
+###########INDONESIA#######################
+library(foreign)
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia/"
+
+files <- list.files(cd,pattern='.dbf')
+
+for(i in 1:length(files)){
+  year <- read.dbf(paste(cd,files[i],sep=""))
+  year$Count2 <- (year$Count*30*30)/10000
+  year$cat <- 0
+  year$cat[which(year$Count2 <= 50)] <- 1
+  year$cat[which(year$Count2 > 50 & year$Count2 <= 100)] <- 2
+  year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+  year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+  year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+  year$cat[which(year$Count2 > 1000)] <- 6
+  write.csv(year, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia/output/Cat_",substr(files[i],11,19),".csv", sep =""),row.names=F)
+}
+###############figures
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia/output/"
+files2 <- list.files(cd,pattern='.csv')
+
+output_fig1 <- data.frame(matrix(NA,1,4))
+names(output_fig1) <- c("cat2","freq2","year2","area2")
+
+for(j in 1:length(files2)){
+  patches <- read.csv(paste(cd,files2[j],sep=""))
+  freq_patches <- data.frame(table(patches$cat))
+  Sum <- nrow(patches)
+  freq_patches$cat2 <- freq_patches$Var1
+  freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+  freq_patches$year2 <- substr(files2[j],12,13)
+  freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+  output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+}
+
+output_fig1 <- output_fig1[-1,]
+#Stacked bar graph, for Deforestation (%) over 13 years
+
+
+#out_count1 <- xtabs(freq2~cat2 + year2, data=output_fig1)
+out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+colS <- matrix(rep(colSums(out_area1),6),6,13, byrow=TRUE)
+out_area2 <- out_area1/colS
+
+png(filename="C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Area/Indonesia_all.png",width=800,height=400)
+barplot(out_area1, main="Area of deforested patches",
+        xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,4000000))
+legend("topright", 
+       legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+       fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+dev.off()
+
+png(filename="C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Proportion/Indonesia_all.png",width=800,height=400)
+barplot(out_area2, main="Proportion of deforested patches",
+        xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+legend("topright", 
+       legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+       fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+dev.off()
+
+
+
+#####################Brazil States
+library(foreign)
+
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states/"
+
+states_list<- read.table("C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states.txt", as.is=T)
+
+for (k in 1:nrow(states_list)){
+  files <- list.files(cd,pattern=paste("brazil_", states_list[k,1],'_.*\\.dbf',sep=""))
+  
+  for(i in 1:length(files)){
+    year <- read.dbf(paste(cd,files[i],sep=""))
+    year$Count2 <- (year$Count*30*30)/10000
+    year$cat <- 0
+    year$cat[which(year$Count2 <= 50)] <- 1
+    year$cat[which(year$Count2 > 50 & year$Count2 <= 100)] <- 2
+    year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+    year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+    year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+    year$cat[which(year$Count2 > 1000)] <- 6
+    write.csv(year, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states/outputS/C_",substr(basename(files[i]), 8, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+  } 
+}
+
+#create figures
+
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states/outputS/"
+states_list<- read.table("C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states.txt", as.is=T)
+
+for (m in 1:nrow(states_list)){
+  files2 <- list.files(cd,pattern=paste("C_", states_list[m,1],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  write.csv(output_fig1, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/brazil/brazil_states/outputC/C_",states_list[m,1],".csv", sep =""),row.names=F)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  
+  png(filename=paste("C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Area/B_states/",states_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,max(colS)*1.1))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Proportion/B_states/",states_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+
+}
+
+#####################Indonesia States
+library(foreign)
+
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states/"
+
+states_list<- read.table("C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states2.txt", as.is=T)
+
+for (k in 1:nrow(states_list)){
+  files <- list.files(cd,pattern=paste("indonesia_", states_list[k,1],'_.*\\.dbf',sep=""))
+  
+  for(i in 1:length(files)){
+    year <- read.dbf(paste(cd,files[i],sep=""))
+    year$Count2 <- (year$Count*30*30)/10000
+    year$cat <- 0
+    year$cat[which(year$Count2 <= 50)] <- 1
+    year$cat[which(year$Count2 > 50 & year$Count2 <= 100)] <- 2
+    year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+    year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+    year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+    year$cat[which(year$Count2 > 1000)] <- 6
+    write.csv(year, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states/outputS/C_",substr(basename(files[i]), 11, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+  } 
+}
+
+#create figures
+cd <- "C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states/outputS/"
+states_list<- read.table("C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states2.txt", as.is=T)
+
+for (m in 1:nrow(states_list)){
+  files2 <- list.files(cd,pattern=paste("C_", states_list[m,1],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  write.csv(output_fig1, paste("C:/Users/Amanda_2/Desktop/side_project_brazil/indonesia/indonesia_states/outputC/C_",states_list[m,1],".csv", sep =""),row.names=F)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  
+  png(filename=paste("C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Area/I_states/",states_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,max(colS)*1.1))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("C:/Users/Amanda_2/Desktop/side_project_brazil/figures/Proportion/I_states/",states_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+}
+
+
+#####################all countries
+library(foreign)
+
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/inputs/"
+
+globe_list<- read.table("D:/Users/ams127/working/side_project_brazil/globe/globe_list_sub.txt", as.is=T)
+
+error = rep(NA,(nrow(globe_list)))
+
+for (k in 1:nrow(globe_list)){
+  files <- list.files(cd,pattern=paste(globe_list[k,1],'_.*\\.dbf',sep=""))
+  if (is.na(files[1]) == FALSE){
+    for(i in 1:length(files)){
+      year <- read.dbf(paste(cd,files[i],sep=""))
+      year <- year[,1:2]
+      names(year) <- c("Value","Count")
+      year$Count2 <- (year$Count*30*30)/10000
+      year$cat <- 0
+      year$cat[which(year$Count2 <= 30)] <- 1
+      year$cat[which(year$Count2 > 30 & year$Count2 <= 100)] <- 2
+      year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+      year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+      year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+      year$cat[which(year$Count2 > 1000)] <- 6
+      write.csv(year, paste("D:/Users/ams127/working/side_project_brazil/globe/output_sub/C_",substr(basename(files[i]), 1, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+    }
+  } else {
+    error[k] <- paste(globe_list[k,1], "_does_not_exist", sep="")
+  } 
+}
+
+write.csv(error, "D:/Users/ams127/working/side_project_brazil/globe/not_processed3.csv", row.names=F)
+
+#create figures
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/output_sub/"
+globe_list<- read.table("D:/Users/ams127/working/side_project_brazil/globe/globe_list_U2.txt", as.is=T)
+output_lm <- data.frame(matrix(NA,nrow(globe_list),6))
+names(output_lm) <- c("country","P_slope","P_pvalue","A_slope","A_pvalue","No_obs")
+
+for (m in 1:nrow(globe_list)){
+  files2 <- list.files(cd,pattern=paste("C_", globe_list[m,1],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/globe/outputC/C_",globe_list[m,1],".csv", sep =""),row.names=F)
+  
+  #create colums of zeros for missing data
+  
+  yearT <- c(1,2,3,4,5,6,7,8,9,10,11,12,13)
+  yearS <- unique(as.numeric(output_fig1$year2))
+  yearM <- yearT[!(yearT %in% yearS)]
+  
+  if (length(yearM) > 0) { 
+    x_sub <- as.data.frame(matrix(0,length(yearM),4))
+    names(x_sub) <- c("cat2","freq2","year2","area2")
+    x_sub$year2 <- yearM
+    x_sub$cat2 <- 1
+    output_fig1 <- rbind(output_fig1,x_sub)
+  }
+  
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/globe/output_F/F_",globe_list[m,1],".csv", sep =""),row.names=F)
+  
+  output_fig1$year2 <- as.numeric(output_fig1$year2)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  colnames(out_area2) <- colnames(out_area1)
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/figures/Area/globe/",globe_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,max(colS)*1.1))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/figures/Proportion/globe/",globe_list[m,1],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  #check to see what I did with zero values?
+  
+  data_sub <- data.frame(cbind(as.numeric(yearT),out_area2[1,]),colSums(out_area1))
+  names(data_sub) <- c("year","prop","area")
+  output_lm[m,1] <- globe_list[m,1]
+  fit2 <- lm(area~year, data=data_sub)
+  output_lm[m,2]<- summary(fit2)$coefficients[2,1]
+  output_lm[m,3]<- summary(fit2)$coefficients[2,4]
+  data_sub$prop <- ifelse(data_sub$prop == 0,NA,data_sub$prop)
+  output_lm$No_obs[m] <- 13 - length(data_sub$prop[which(is.na(data_sub$prop))])
+  if (output_lm$No_obs[m] > 3) {fit <- lm(prop~year, data=data_sub)
+  output_lm[m,4]<- summary(fit)$coefficients[2,1]
+  output_lm[m,5]<- summary(fit)$coefficients[2,4]
+  }
+  
+}
+
+
+write.csv(output_lm, "D:/Users/ams127/working/side_project_brazil/globe/LR_output_1118_2015_3.csv", row.names=F)
+
+
+#2 million ha
+#####################accumulated area
+library(foreign)
+
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/inputs/"
+
+globe_list<-c('Indonesia')
+
+for (k in 1:length(globe_list)){
+  files <- list.files(cd,pattern=paste(globe_list[k],'_.*\\.dbf',sep=""))
+  for(i in 1:length(files)){
+      year <- read.dbf(paste(cd,files[i],sep=""))
+      year <- year[,1:2]
+      names(year) <- c("Value","Count")
+      year <- year[which(year$Count > 1),]
+      year$Count2 <- (year$Count*30*30)/10000
+      year$cat <- 0
+      year$cat[which(year$Count2 <= 30)] <- 1
+      year$cat[which(year$Count2 > 30 & year$Count2 <= 100)] <- 2
+      year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+      year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+      year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+      year$cat[which(year$Count2 > 1000)] <- 6
+      write.csv(year, paste("D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Cat/C_",substr(basename(files[i]), 1, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+    }
+}
+
+#create figures
+cd <- "D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Cat/"
+
+for (m in 1:length(globe_list)){
+  files2 <- list.files(cd,pattern=paste("C_", globe_list[m],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  head(output_fig1)
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Inter/C_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  #create colums of zeros for missing data
+  
+  yearT <- c(1,2,3,4,5,6,7,8,9,10,11,12,13)
+  yearS <- unique(as.numeric(output_fig1$year2))
+  yearM <- yearT[!(yearT %in% yearS)]
+  
+  if (length(yearM) > 0) { 
+    x_sub <- as.data.frame(matrix(0,length(yearM),4))
+    names(x_sub) <- c("cat2","freq2","year2","area2")
+    x_sub$year2 <- yearM
+    x_sub$cat2 <- 1
+    output_fig1 <- rbind(output_fig1,x_sub)
+  }
+  
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Final/F_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  output_fig1$year2 <- as.numeric(output_fig1$year2)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  colnames(out_area2) <- colnames(out_area1)
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Figure/A",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,max(colS)*1.1))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/indonesia_1p/Figure/P",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<50 ha","50-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  #check to see what I did with zero values?
+  
+}
+
+
+
+#################NEW Classes######################
+##################################################
+
+
+#2 million ha
+#####################accumulated area
+library(foreign)
+
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/inputs/"
+
+globe_list<-c('Indonesia')
+
+for (k in 1:length(globe_list)){
+  files <- list.files(cd,pattern=paste(globe_list[k],'_.*\\.dbf',sep=""))
+  for(i in 1:length(files)){
+    year <- read.dbf(paste(cd,files[i],sep=""))
+    year <- year[,1:2]
+    names(year) <- c("Value","Count")
+    year <- year[which(year$Count > 3),]
+    year$Count2 <- (year$Count*30*30)/10000
+    year$cat <- 0
+    year$cat[which(year$Count2 <= 10)] <- 1
+    year$cat[which(year$Count2 > 10 & year$Count2 <= 100)] <- 2
+    year$cat[which(year$Count2 > 100 & year$Count2 <= 200)] <- 3
+    year$cat[which(year$Count2 > 200 & year$Count2 <= 500)] <- 4
+    year$cat[which(year$Count2 > 500 & year$Count2 <= 1000)] <- 5
+    year$cat[which(year$Count2 > 1000)] <- 6
+    write.csv(year, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Cat/C_",substr(basename(files[i]), 1, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+  }
+}
+
+#create figures
+cd <- "D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Cat/"
+
+for (m in 1:length(globe_list)){
+  files2 <- list.files(cd,pattern=paste("C_", globe_list[m],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  head(output_fig1)
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Inter/C_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  #create colums of zeros for missing data
+  
+  yearT <- c(1,2,3,4,5,6,7,8,9,10,11,12,13)
+  yearS <- unique(as.numeric(output_fig1$year2))
+  yearM <- yearT[!(yearT %in% yearS)]
+  
+  if (length(yearM) > 0) { 
+    x_sub <- as.data.frame(matrix(0,length(yearM),4))
+    names(x_sub) <- c("cat2","freq2","year2","area2")
+    x_sub$year2 <- yearM
+    x_sub$cat2 <- 1
+    output_fig1 <- rbind(output_fig1,x_sub)
+  }
+  
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Final/F_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  output_fig1$year2 <- as.numeric(output_fig1$year2)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  colnames(out_area2) <- colnames(out_area1)
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Figure/A_",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,2500000))
+  legend("topright", 
+         legend = c("<10 ha","10-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3p/Figure/P_",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray15","gray30","gray45","gray60","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<10 ha","10-100 ha","100-200 ha","200-500 ha","500-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray15","gray30","gray45","gray60","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  #check to see what I did with zero values?
+  
+}
+
+
+#2 million ha
+#####################accumulated area
+library(foreign)
+
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/inputs/"
+
+globe_list<-c('Indonesia')
+
+for (k in 1:length(globe_list)){
+  files <- list.files(cd,pattern=paste(globe_list[k],'_.*\\.dbf',sep=""))
+  for(i in 1:length(files)){
+    year <- read.dbf(paste(cd,files[i],sep=""))
+    year <- year[,1:2]
+    names(year) <- c("Value","Count")
+    year <- year[which(year$Count > 3),]
+    year$Count2 <- (year$Count*30*30)/10000
+    year$cat <- 0
+    year$cat[which(year$Count2 <= 10)] <- 1
+    year$cat[which(year$Count2 > 10 & year$Count2 <= 100)] <- 2
+    year$cat[which(year$Count2 > 100 & year$Count2 <= 1000)] <- 3
+    year$cat[which(year$Count2 > 1000)] <- 4
+    write.csv(year, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Cat/C_",substr(basename(files[i]), 1, nchar(basename(files[i])) - 4),".csv", sep =""),row.names=F)
+  }
+}
+
+#create figures
+cd <- "D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Cat/"
+
+for (m in 1:length(globe_list)){
+  files2 <-     .files(cd,pattern=paste("C_", globe_list[m],'_.*\\.csv',sep=""))
+  output_fig1 <- data.frame(matrix(NA,1,4))
+  names(output_fig1) <- c("cat2","freq2","year2","area2")
+  
+  for(j in 1:length(files2)){
+    patches <- read.csv(paste(cd,files2[j],sep=""))
+    freq_patches <- data.frame(table(patches$cat))
+    Sum <- nrow(patches)
+    freq_patches$cat2 <- freq_patches$Var1
+    freq_patches$freq2 <- (freq_patches$Freq/Sum)*100
+    freq_patches$year2 <- substr(basename(files2[j]), nchar(basename(files2[j])) - 5, nchar(basename(files2[j]))-4)
+    freq_patches$area2 <- tapply(patches$Count2, patches$cat, sum)
+    output_fig1 <- rbind(output_fig1,freq_patches[,c("cat2","freq2","year2","area2")])
+  }
+  
+  output_fig1 <- output_fig1[-1,]
+  head(output_fig1)
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Inter/C_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  #create colums of zeros for missing data
+  
+  yearT <- c(1,2,3,4,5,6,7,8,9,10,11,12,13)
+  yearS <- unique(as.numeric(output_fig1$year2))
+  yearM <- yearT[!(yearT %in% yearS)]
+  
+  if (length(yearM) > 0) { 
+    x_sub <- as.data.frame(matrix(0,length(yearM),4))
+    names(x_sub) <- c("cat2","freq2","year2","area2")
+    x_sub$year2 <- yearM
+    x_sub$cat2 <- 1
+    output_fig1 <- rbind(output_fig1,x_sub)
+  }
+  
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Final/F_",globe_list[m],".csv", sep =""),row.names=F)
+  
+  output_fig1$year2 <- as.numeric(output_fig1$year2)
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  colnames(out_area2) <- colnames(out_area1)
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Figure/A_",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area1, main="Area of deforested patches",
+          xlab="year", ylab="Deforestation (ha)", col=c("gray0","gray25","gray50","gray75"), ylim=c(0,2500000)) #max(colS)
+  legend("topright", 
+         legend = c("<10 ha","10-100 ha","100-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray25","gray50","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  png(filename=paste("D:/Users/ams127/working/side_project_brazil/indonesia/figure_comp/indonesia_3pR/Figure/P_",globe_list[m],".png", sep=""),width=800,height=400)
+  barplot(out_area2, main="Proportion of deforested patches",
+          xlab="year", ylab="Proportion Deforestation", col=c("gray0","gray25","gray50","gray75"), ylim=c(0,1.10))
+  legend("topright", 
+         legend = c("<10 ha","10-100 ha","100-1000 ha",">1000 ha"), 
+         fill = c("gray0","gray25","gray50","gray75"), bty= "n", horiz=T)
+  dev.off()
+  
+  #check to see what I did with zero values?
+}
+
+
+######################OLD PIECES
+#number of observations
+
+
+##########################
+
+cd <- "D:/Users/ams127/working/side_project_brazil/globe/outputS/"
+globe_list<- read.table("D:/Users/ams127/working/side_project_brazil/globe/globe_list_U2.txt", as.is=T)
+
+#output_lm <- data.frame(matrix(NA,nrow(globe_list),6))
+#names(output_lm) <- c("country","P_slope","P_pvalue","A_slope","A_pvalue","No_obs")
+
+######################################
+
+for (m in 1:nrow(globe_list)){
+  output_fig1 <- read.csv(paste("D:/Users/ams127/working/side_project_brazil/globe/outputC/C_",globe_list[m,1],".csv", sep =""))
+  
+  yearT <- c(1,2,3,4,5,6,7,8,9,10,11,12,13)
+  yearS <- unique(as.numeric(output_fig1$year2))
+  yearM <- yearT[!(yearT %in% yearS)]
+  
+  if (length(yearM) > 0) { 
+    x_sub <- as.data.frame(matrix(0,length(yearM),4))
+    names(x_sub) <- c("cat2","freq2","year2","area2")
+    x_sub$year2 <- yearM
+    x_sub$cat2 <- 1
+    x_sub$freq2 <- NA
+    output_fig1 <- rbind(output_fig1,x_sub)
+  }
+  
+  write.csv(output_fig1, paste("D:/Users/ams127/working/side_project_brazil/globe/output_F/F_",globe_list[m,1],".csv", sep =""),row.names=F)
+
+}  
+
+  
+  out_area1 <- xtabs(area2~cat2 + year2, data=output_fig1)
+  colS <- matrix(rep(colSums(out_area1),nrow(out_area1)),nrow(out_area1),13, byrow=TRUE)
+  out_area2 <- ifelse(colS == 0,0,out_area1/colS)
+  
+  data_sub <- data.frame(cbind(as.numeric(yearT),out_area2[1,]),colSums(out_area1))
+  names(data_sub) <- c("year","prop","area")
+  data_sub$prop <- ifelse(data_sub$prop == 0,NA,data_sub$prop)
+  output_lm[m,1] <- globe_list[m,1]
+  output_lm$No_obs[m] <- 13 - length(data_sub$prop[which(is.na(data_sub$prop))])
+  if (output_lm$No_obs[m] > 3) {fit <- lm(prop~year, data=data_sub)
+    output_lm[m,2]<- summary(fit)$coefficients[2,1]
+    output_lm[m,3]<- summary(fit)$coefficients[2,4]
+  }
+  output_lm$No_obs[m] <- 13 - length(data_sub$prop[which(is.na(data_sub$prop))])
+}
+
+write.csv(output_lm, "D:/Users/ams127/working/side_project_brazil/globe/LR_output_1116_2015_3.csv", row.names=F)
+
+
+output_lm$No_obs <- NA
+
+for (m in 1:nrow(globe_list)){
+  fileX <- read.csv(paste("D:/Users/ams127/working/side_project_brazil/globe/outputC/C_",globe_list[m,1],".csv", sep =""))
+  output_lm$No_obs[m] <- length(unique(fileX$year2))
+}
+
+
+
+output_fig1 <- read.csv(paste("D:/Users/ams127/working/side_project_brazil/globe/outputC/C_",globe_list[5,1],".csv", sep =""))
+
+write.csv(output_lm, "D:/Users/ams127/working/side_project_brazil/globe/LR_output_1113_2015_NO.csv", row.names=F)
+
+

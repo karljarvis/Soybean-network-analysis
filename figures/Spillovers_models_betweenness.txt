@@ -1,0 +1,261 @@
+$btw.lm0
+
+Call:
+lm(formula = US.btw ~ 1, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1371.6  -668.4   212.7   613.2  1541.2 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     2544        159      16 2.69e-15 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 841.5 on 27 degrees of freedom
+
+
+$btw.lm1
+
+Call:
+lm(formula = US.btw ~ Br_Ch.prop, data = spillover.scale)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1012.59  -437.32   -30.42   394.30  1115.53 
+
+Coefficients:
+            Estimate Std. Error t value   Pr(>|t|)    
+(Intercept)   2543.7      103.3  24.629    < 2e-16 ***
+Br_Ch.prop     648.4      105.2   6.165 0.00000161 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 546.5 on 26 degrees of freedom
+Multiple R-squared:  0.5938,	Adjusted R-squared:  0.5782 
+F-statistic: 38.01 on 1 and 26 DF,  p-value: 0.000001611
+
+
+$btw.lm2
+
+Call:
+lm(formula = US.btw ~ Ar_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1005.8  -479.5  -199.1   576.0  1225.0 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   2543.7      123.3  20.625  < 2e-16 ***
+Ar_Ch.prop     545.8      125.6   4.346 0.000189 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 652.6 on 26 degrees of freedom
+Multiple R-squared:  0.4207,	Adjusted R-squared:  0.3985 
+F-statistic: 18.89 on 1 and 26 DF,  p-value: 0.0001889
+
+
+$btw.lm3
+
+Call:
+lm(formula = US.btw ~ Ar_Ch.prop + Br_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-965.84 -284.51  -31.59  236.80  924.03 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2543.74      95.83  26.545  < 2e-16 ***
+Ar_Ch.prop    267.91     117.46   2.281  0.03135 *  
+Br_Ch.prop    499.31     117.46   4.251  0.00026 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 507.1 on 25 degrees of freedom
+Multiple R-squared:  0.6638,	Adjusted R-squared:  0.6369 
+F-statistic: 24.68 on 2 and 25 DF,  p-value: 0.000001211
+
+
+$btw.lm4
+
+Call:
+lm(formula = US.btw ~ Ar_Ch.prop + Br_Ch.prop + Ur_Ch.prop + 
+    Pa_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-964.69 -251.20  -17.11  155.39  945.19 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2543.74      93.61  27.174  < 2e-16 ***
+Ar_Ch.prop    293.29     133.93   2.190 0.038933 *  
+Br_Ch.prop    498.47     128.00   3.894 0.000731 ***
+Ur_Ch.prop    -47.39     110.16  -0.430 0.671043    
+Pa_Ch.prop    161.00     101.35   1.588 0.125835    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 495.3 on 23 degrees of freedom
+Multiple R-squared:  0.7048,	Adjusted R-squared:  0.6535 
+F-statistic: 13.73 on 4 and 23 DF,  p-value: 0.000007331
+
+
+$btw.lm5
+
+Call:
+lm(formula = US.btw ~ SouthAm_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-947.79 -285.72  -48.57  230.87  928.81 
+
+Coefficients:
+                Estimate Std. Error t value    Pr(>|t|)    
+(Intercept)      2543.74      94.22  26.997     < 2e-16 ***
+SouthAm_Ch.prop   684.60      95.95   7.135 0.000000141 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 498.6 on 26 degrees of freedom
+Multiple R-squared:  0.6619,	Adjusted R-squared:  0.6489 
+F-statistic:  50.9 on 1 and 26 DF,  p-value: 0.0000001411
+
+
+$btw.lm6
+
+Call:
+lm(formula = US.btw ~ Ar_Ch.prop + Br_Ch.prop + Ur_Ch.prop + 
+    Pa_Ch.prop + Ca_Ch.prop + Ru_Ch.prop + Au_Ch.prop + SA_Ch.prop + 
+    In_Ch.prop + Et_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-602.93 -220.07  -17.86  123.72  825.04 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2543.74      84.88  29.969 3.72e-16 ***
+Ar_Ch.prop    392.64     163.58   2.400   0.0281 *  
+Br_Ch.prop    335.66     188.35   1.782   0.0926 .  
+Ur_Ch.prop   -176.53     116.38  -1.517   0.1477    
+Pa_Ch.prop    214.48     101.53   2.112   0.0497 *  
+Ca_Ch.prop    -70.68     189.73  -0.373   0.7141    
+Ru_Ch.prop   -111.14     123.79  -0.898   0.3819    
+Au_Ch.prop    -68.81     151.75  -0.453   0.6560    
+SA_Ch.prop    310.61     141.04   2.202   0.0417 *  
+In_Ch.prop    -45.92     104.54  -0.439   0.6660    
+Et_Ch.prop     20.13     116.04   0.173   0.8644    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 449.1 on 17 degrees of freedom
+Multiple R-squared:  0.8206,	Adjusted R-squared:  0.7151 
+F-statistic: 7.777 on 10 and 17 DF,  p-value: 0.000135
+
+
+$btw.lm7
+
+Call:
+lm(formula = US.btw ~ TopTen_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1291.9  -581.9   198.0   498.1  1441.3 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      2543.7      143.8   17.69 5.12e-16 ***
+TopTen_Ch.prop    388.1      146.4    2.65   0.0135 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 760.8 on 26 degrees of freedom
+Multiple R-squared:  0.2127,	Adjusted R-squared:  0.1824 
+F-statistic: 7.025 on 1 and 26 DF,  p-value: 0.0135
+
+
+$btw.lm8
+
+Call:
+lm(formula = US.btw ~ all.but.us.br.ar_ch.prop, data = spillover.scale)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1747.58  -316.64    93.55   256.77  1161.54 
+
+Coefficients:
+                         Estimate Std. Error t value   Pr(>|t|)    
+(Intercept)                2543.7      108.0  23.563    < 2e-16 ***
+all.but.us.br.ar_ch.prop   -627.6      109.9  -5.709 0.00000524 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 571.2 on 26 degrees of freedom
+Multiple R-squared:  0.5562,	Adjusted R-squared:  0.5391 
+F-statistic: 32.59 on 1 and 26 DF,  p-value: 0.000005239
+
+
+$btw.lm9
+
+Call:
+lm(formula = US.btw ~ Br_Ch.prop + Ar_Ch.prop + SA_Ch.prop, data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-771.14 -266.40    4.74  181.78  960.55 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2543.74      91.23  27.884  < 2e-16 ***
+Br_Ch.prop    335.84     141.26   2.377  0.02575 *  
+Ar_Ch.prop    356.80     121.28   2.942  0.00712 ** 
+SA_Ch.prop    222.25     117.37   1.894  0.07039 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 482.7 on 24 degrees of freedom
+Multiple R-squared:  0.7075,	Adjusted R-squared:  0.6709 
+F-statistic: 19.35 on 3 and 24 DF,  p-value: 0.000001352
+
+
+$btw.lm10
+
+Call:
+lm(formula = US.btw ~ TopTen_Ch.prop + SouthAm_Ch.prop + all.but.us.br.ar_ch.prop + 
+    Ar_Ch.prop + Br_Ch.prop + Ur_Ch.prop + Pa_Ch.prop + Ca_Ch.prop + 
+    Ru_Ch.prop + Au_Ch.prop + SA_Ch.prop + In_Ch.prop + Et_Ch.prop, 
+    data = spillover.scale)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-524.99 -204.03   -0.26  168.04  811.95 
+
+Coefficients: (1 not defined because of singularities)
+                          Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                2543.74      77.64  32.763 2.26e-15 ***
+TopTen_Ch.prop              114.42      88.01   1.300   0.2132    
+SouthAm_Ch.prop           28266.74   16620.89   1.701   0.1096    
+all.but.us.br.ar_ch.prop   -217.76     115.05  -1.893   0.0779 .  
+Ar_Ch.prop               -11405.10    6857.85  -1.663   0.1170    
+Br_Ch.prop               -19795.67   11819.69  -1.675   0.1147    
+Ur_Ch.prop                 -829.89     413.37  -2.008   0.0630 .  
+Pa_Ch.prop                      NA         NA      NA       NA    
+Ca_Ch.prop                  -50.62     177.16  -0.286   0.7790    
+Ru_Ch.prop                 -126.06     114.36  -1.102   0.2877    
+Au_Ch.prop                  -52.42     139.48  -0.376   0.7123    
+SA_Ch.prop                  274.40     130.47   2.103   0.0527 .  
+In_Ch.prop                  -36.93      95.70  -0.386   0.7050    
+Et_Ch.prop                   22.63     106.43   0.213   0.8345    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 410.8 on 15 degrees of freedom
+Multiple R-squared:  0.8676,	Adjusted R-squared:  0.7616 
+F-statistic: 8.189 on 12 and 15 DF,  p-value: 0.0001422
+
+
