@@ -1,6 +1,9 @@
 # Ignore Mac system files
 .DS_Store
 
+# Examples we tested out before using on our data
+networks_in_R_examples
+
 # History files
 .Rhistory
 .Rapp.history
